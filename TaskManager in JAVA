@@ -1,0 +1,93 @@
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+class Task{
+    private String name;
+    private LocalDate dueDate;
+    private int priority;
+
+    public Task(String name, LocalDate dueDate, int priority){
+        this.name = name;
+        this.dueDate = dueDate;
+        this.priority = priority;
+    }
+
+    public String getName(){
+        return name;
+    }
+    public LocalDate getDueDate(){
+        return dueDate;
+    }
+    public int getPriority(){
+        return priority;
+    }
+    @Override
+    public String toString(){
+        return "Task: " + name + " | Due Date: " + dueDate + " | Priority: " + priority;
+    }
+}
+public class TaskManager{
+    private List<Task> tasks;
+    private Scanner scanner;
+
+    public TaskManager(){
+        tasks = new ArrayList<>();
+        scanner = new Scanner(System.in);
+    }
+    public void addTask(){
+        System.out.print("Enter task name: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Enter due date (YYYY-MM-DD): ");
+        LocalDate dueDate = LocalDate.parse(scanner.nextLine());
+
+        System.out.print("Enter priority (1 - Low, 2 - Medium, 3 - High): ");
+        int priority = Integer.parseInt(scanner.nextLine());
+
+        Task newTask = new Task(name, dueDate, priority);
+        tasks.add(newTask);
+        System.out.println("Task added successfully!");
+    }
+
+    public void displayTasks() {
+        if (tasks.isEmpty()) {
+            System.out.println("No tasks available.");
+        } else {
+            System.out.println("Tasks:");
+            for (Task task : tasks) {
+                System.out.println(task);
+            }
+        }
+    }
+    public static void main(String[] args) {
+        TaskManager taskManager = new TaskManager();
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\nTask Manager Menu:");
+            System.out.println("1. Add Task");
+            System.out.println("2. Display Tasks");
+            System.out.println("3. Exit");
+            System.out.println("Enter your choice:");
+
+            choice = Integer.parseInt(scanner.nextLine());
+
+            switch (choice) {
+                case 1:
+                    taskManager.addTask();
+                    break;
+                case 2:
+                    taskManager.displayTasks();
+                    break;
+                case 3:
+                    System.out.println("Exiting Task Manager. Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+        } while (choice != 3);
+    }
+}
